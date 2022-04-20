@@ -8,12 +8,11 @@ encoding: UTF-8
 followredirect: true
 links:
   - https://1337x.to/
-  - https://1337x.gd/
   - https://1337x.st/
   - https://x1337x.ws/
   - https://x1337x.eu/
   - https://x1337x.se/
-  - https://1337x.unblockit.day/
+  - https://1337x.unblockit.llc/
   - https://1337x.nocensor.sbs/
 legacylinks:
   - https://1337x.unblockit.dev/
@@ -36,6 +35,8 @@ legacylinks:
   - https://1337x.unblockit.how/
   - https://1337x.unblockit.cam/
   - https://1337x.nocensor.biz/
+  - https://1337x.gd/
+  - https://1337x.unblockit.day/
 
 caps:
   categorymappings:
@@ -128,6 +129,10 @@ caps:
     book-search: [q]
 
 settings:
+  - name: flaresolverr
+    type: info
+    label: FlareSolverr
+    default: This site may use Cloudflare DDoS Protection, therefore Jackett requires <a href="https://github.com/Jackett/Jackett#configuring-flaresolverr" target="_blank">FlareSolverr</a> to access it.
   - name: downloadlink
     type: select
     label: Download link

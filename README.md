@@ -60,7 +60,6 @@ A third-party Golang SDK for Jackett is available from [webtor-io/go-jackett](ht
  * E-Hentai
  * elitetorrent
  * EpubLibre
- * Erai-Raws
  * EXT Torrents
  * ExtraTorrent.st
  * EZTV
@@ -83,7 +82,6 @@ A third-party Golang SDK for Jackett is available from [webtor-io/go-jackett](ht
  * JAV-Torrent
  * kickasstorrents.ws
  * kickasstorrents.to
- * KissSub
  * Legit Torrents
  * LePorno.info
  * LimeTorrents
@@ -93,6 +91,7 @@ A third-party Golang SDK for Jackett is available from [webtor-io/go-jackett](ht
  * MegaPeer
  * MejorTorrent
  * Mikan
+ * MioBT
  * MixTapeTorrent
  * MoviesDVDR
  * MovieTorrent
@@ -119,6 +118,7 @@ A third-party Golang SDK for Jackett is available from [webtor-io/go-jackett](ht
  * Portugas
  * ProPorn
  * ProStyleX
+ * PS4-Torrent
  * Rapidzona
  * RARBG
  * RinTor
@@ -148,7 +148,6 @@ A third-party Golang SDK for Jackett is available from [webtor-io/go-jackett](ht
  * TorrentFunk
  * TorrentGalaxy (TGx)
  * TorrentKitty
- * TorrentMafya
  * TorrentParadise
  * TorrentProject2
  * TorrentQQ (토렌트큐큐)
@@ -188,6 +187,7 @@ A third-party Golang SDK for Jackett is available from [webtor-io/go-jackett](ht
  * DimeADozen (EzTorrent)
  * DXP (Deaf Experts)
  * EniaHD
+ * Erai-Raws
  * ExKinoRay
  * ExtremlymTorrents
  * Fenyarnyek-Tracker
@@ -261,6 +261,7 @@ A third-party Golang SDK for Jackett is available from [webtor-io/go-jackett](ht
  * Araba Fenice (Phoenix) [![(invite needed)][inviteneeded]](#)
  * ArabP2P
  * AsianCinema
+ * Audiences
  * AudioNews (AN)
  * Aussierul.es [![(invite needed)][inviteneeded]](#)
  * AvistaZ (AsiaTorrents)
@@ -442,7 +443,6 @@ A third-party Golang SDK for Jackett is available from [webtor-io/go-jackett](ht
  * Moviesite
  * MyAnonamouse (MAM)
  * MySpleen [![(invite needed)][inviteneeded]](#)
- * NBTorrents [![(invite needed)][inviteneeded]](#)
  * NCore
  * Nebulance (NBL) (TransmiTheNet)
  * NetCosmo
@@ -533,6 +533,7 @@ A third-party Golang SDK for Jackett is available from [webtor-io/go-jackett](ht
  * TellyTorrent
  * teracod (Movie Zone)
  * The-Crazy-Ones
+ * The-New-Fun
  * The Falling Angels (TFA) [![(invite needed)][inviteneeded]](#)
  * The Geeks
  * The Horror Charnel (THC)
@@ -570,7 +571,6 @@ A third-party Golang SDK for Jackett is available from [webtor-io/go-jackett](ht
  * TorrentLeech.pl
  * TorrentMasters
  * TorrentSeeds (TS)
- * Trackeros
  * TranceTraffic [![(invite needed)][inviteneeded]](#)
  * Trezzor [![(invite needed)][inviteneeded]](#)
  * TurkSeed
