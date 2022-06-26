@@ -1,38 +1,27 @@
 ---
-id: animeitalia
-name: AnimeItalia
-description: "AnimeItalia is an ITALIAN Private Torrent Tracker for ANIME"
-language: it-IT
+id: pixelados
+name: Pixelados
+description: "Pixelados is a Spanish Private Torrent Tracker for HD MOVIES / TV"
+language: es-ES
 type: private
 encoding: UTF-8
 links:
-  - https://animeitalia.org/
+  - https://pixelados.tv/
 
 caps:
   categorymappings:
-    - {id: 1, cat: Movies, desc: "Film ITA"}
-    - {id: 2, cat: TV, desc: "Serie TV"}
-    - {id: 3, cat: Audio, desc: "Musica"}
-    - {id: 4, cat: Console, desc: "Giochi"}
-    - {id: 5, cat: PC, desc: "Programmi"}
-    - {id: 6, cat: TV/Anime, desc: "Anime SUB-ITA"}
-    - {id: 7, cat: TV/Anime, desc: "Anime ITA"}
-    - {id: 8, cat: Movies/Other, desc: "Film Anime SUB-ITA"}
-    - {id: 9, cat: Movies/Other, desc: "Film Anime ITA"}
-    - {id: 10, cat: Books/Comics, desc: "Manga ITA"}
-    - {id: 11, cat: Books/Comics, desc: "Manga ENG"}
-    - {id: 12, cat: Audio, desc: "Anime Music"}
-    - {id: 13, cat: Other, desc: "Foto Anime"}
-    - {id: 14, cat: XXX/Other, desc: "Hentai SUB-ITA"}
-    - {id: 15, cat: XXX/Other, desc: "Hentai ITA"}
-    - {id: 16, cat: XXX/ImageSet, desc: "Foto Hentai"}
+    - {id: 1, cat: Movies, desc: "Películas"}
+    - {id: 2, cat: TV, desc: "Series"}
+    - {id: 3, cat: Audio, desc: "Música"}
+    - {id: 4, cat: TV/Documentary, desc: "Documentales"}
+    - {id: 5, cat: TV/Sport, desc: "Deportes"}
+    - {id: 6, cat: TV/Anime, desc: "Animación"}
 
   modes:
     search: [q]
-    tv-search: [q, season, ep, imdbid, tvdbid]
+    tv-search: [q, season, ep, imdbid, tvdbid, tmdbid]
     movie-search: [q, imdbid, tmdbid]
     music-search: [q]
-    book-search: [q]
 
 settings:
   - name: apikey
@@ -41,7 +30,7 @@ settings:
   - name: info_key
     type: info
     label: About your API key
-    default: "Find or Generate a new API Token by accessing your <a href=\"https://animeitalia.org/\" target =_blank>AnimeItalia</a> account <i>My Security</i> page and clicking on the <b>API Token</b> tab."
+    default: "Find or Generate a new API Token by accessing your <a href=\"https://pixelados.tv/\" target =_blank>Pixelados</a> account <i>My Security</i> page and clicking on the <b>API Token</b> tab."
   - name: freeleech
     type: checkbox
     label: Search freeleech only
@@ -92,8 +81,15 @@ search:
     page: 1
 
   keywordsfilters:
+    - name: diacritics
+      args: replace
     - name: re_replace
       args: ["\\.", " "]
+    # strip season and ep when it's added by tvsearch Query
+    - name: re_replace
+      args: ["(?i)\\bS0*(\\d+)\\b", "{{ if eq .Query.Type \"tvsearch\" }}{{ else }}T$1{{ end }}"]
+    - name: re_replace
+      args: ["(?i)S0?(\\d{1,2})E(\\d{1,2})", "{{ if eq .Query.Type \"tvsearch\" }}{{ else }}$1x$2{{ end }}"]
 
   rows:
     selector: data
@@ -102,14 +98,46 @@ search:
       selector: meta.total
 
   fields:
-    categorydesc:
-      selector: category
+    category:
+      selector: category_id
+    mejorada:
+      selector: types:contains(Mejorada)
+      optional: true
+    corregida:
+      selector: types:contains(Corregida)
+      optional: true
+    audio_editado:
+      selector: types:contains(Audio-Editado)
+      optional: true
+    title_vose:
+      selector: name:contains(VOSE)
+      optional: true
+    title_notvose:
+      selector: name:not(:contains(VOSE))
+      optional: true
+      filters:
+        - name: append
+          args: " SPANISH"
     title:
-      selector: name
+      text: "{{ if .Result.title_vose }}{{ .Result.title_vose }}{{ else }}{{ .Result.title_notvose }}{{ end }}{{ if or .Result.mejorada .Result.corregida .Result.audio_editado }} PROPER{{ else }}{{ end }}"
+      filters:
+        # Replace Spanish season names like T1, MS (MiniSerie), TU (Temporada Unica) for normalized format S1
+        - name: re_replace
+          args: ["(?i)T(\\d{1,2})\\b", "S$1"]
+        - name: re_replace
+          args: ["(\\d{2})[×|x](\\d{2})", "S$1E$2"]
+        - name: re_replace
+          args: ["(\\d{1})[×|x](\\d{2})", "S0$1E$2"]
+        - name: re_replace
+          args: ["(?i)MS\\b", "S1"]
+        - name: re_replace
+          args: ["(?i)TU\\b", "S1"]
     details:
       selector: details_link
     download:
       selector: download_link
+    infohash:
+      selector: info_hash
     poster:
       selector: poster
       filters:
@@ -150,6 +178,10 @@ search:
       case:
         0: 1 # normal
         1: 2 # double
-    minimumratio:
-      text: 1.0
-# json UNIT3D 6.0.4
+# global MR is 0.4 but torrents must be seeded for 7 days regardless of ratio
+#    minimumratio:
+#      text: 0.4
+    minimumseedtime:
+      # 7 day (as seconds = 7 x 24 x 60 x 60)
+      text: 604800
+# json UNIT3D 6.1.0 custom

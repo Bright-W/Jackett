@@ -125,6 +125,7 @@ function loadJackettSettings() {
 
         $("#jackett-savedir").val(data.blackholedir);
         $("#jackett-allowext").attr('checked', data.external);
+        $("#jackett-allowcors").attr('checked', data.cors);
         $("#jackett-allowupdate").attr('checked', data.updatedisabled);
         $("#jackett-prerelease").attr('checked', data.prerelease);
         $("#jackett-logging").attr('checked', data.logging);
@@ -923,8 +924,12 @@ function doErrorNotify(indexerId, errorMessage, errorEvent) {
     var indexEnd = 2000 - githubUrl.length; // keep url <= 2k #5104
     var htmlEscapedError = $("<div>").text(errorMessage.substring(0, indexEnd)).html();
     var urlEscapedError = encodeURIComponent(errorMessage.substring(0, indexEnd));
-    doNotify("An error occurred while " + errorEvent + " this indexer<br /><b>" + htmlEscapedError + "</b><br />" +
-      "<i><a href=\"" + githubUrl + " " + urlEscapedError + "\" target=\"_blank\">Click here to open an issue on GitHub for " + githubText + ".</a><i>",
+    var link = "<i><a href=\"" + githubUrl + " " + urlEscapedError + "\" target=\"_blank\">Click here to open an issue on GitHub for " + githubText + ".</a><i>";
+    if (errorMessage.includes("FlareSolverr is not configured")) {
+      link = "<i><a href=\"https://github.com/Jackett/Jackett#configuring-flaresolverr\" target=\"_blank\">Instructions to install and configure FlareSolverr.</a><i><br />" +
+        "<i><a href=\"https://github.com/Jackett/Jackett/wiki/Troubleshooting#error-connecting-to-flaresolverr-server\" target=\"_blank\">Troubleshooting frequent errors with FlareSolverr.</a><i>";
+    }
+    doNotify("An error occurred while " + errorEvent + " this indexer<br /><b>" + htmlEscapedError + "</b><br />" + link,
       "danger", "glyphicon glyphicon-alert", false);
   } else {
     doNotify("An error occurred while " + errorEvent + " indexers, please take a look at indexers with failed test for more information.",
@@ -966,10 +971,14 @@ function updateReleasesRow(row) {
     var labels = $(row).find("span.release-labels");
     var TitleLink = $(row).find("td.Title > a");
     var IMDBId = $(row).data("imdb");
+    var TMDBId = $(row).data("tmdb");
+    var TVDBId = $(row).data("tvdb");
+    var DoubanId = $(row).data("douban");
     var Poster = $(row).data("poster");
     var Description = $(row).data("description");
     var DownloadVolumeFactor = parseFloat($(row).find("td.DownloadVolumeFactor").html());
     var UploadVolumeFactor = parseFloat($(row).find("td.UploadVolumeFactor").html());
+    var Cat = $(row).find("td.Cat").html();
 
     var TitleTooltip = "";
     if (Poster)
@@ -988,9 +997,22 @@ function updateReleasesRow(row) {
 
     labels.empty();
 
-  if (IMDBId) {
-    var imdbLen = (IMDBId.toString().length > 7) ? 8 : 7;
+    if (IMDBId) {
+        var imdbLen = (IMDBId.toString().length > 7) ? 8 : 7;
         labels.append('\n<a href="https://www.imdb.com/title/tt' + ("00000000" + IMDBId).slice(-imdbLen) + '/" target="_blank" class="label label-imdb" alt="IMDB" title="IMDB">IMDB</a>');
+    }
+
+    if (TMDBId && TMDBId > 0) {
+      var TMdbType = (Cat.includes("Movies")) ? "movie" :  "tv";
+      labels.append('\n<a href="https://www.themoviedb.org/' + TMdbType + '/' + TMDBId + '" target="_blank" class="label label-tmdb" alt="TMDB" title="TMDB">TMDB</a>');
+    }
+
+    if (TVDBId && TVDBId > 0) {
+      labels.append('\n<a href="https://thetvdb.com/?tab=series&id=' + TVDBId + '" target="_blank" class="label label-tvdb" alt="TVDB" title="TVDB">TVDB</a>');
+    }
+
+    if (DoubanId && DoubanId > 0) {
+      labels.append('\n<a href="https://movie.douban.com/subject/' + DoubanId + '" target="_blank" class="label label-douban" alt="Douban" title="Douban">Douban</a>');
     }
 
     if (!isNaN(DownloadVolumeFactor)) {
@@ -1519,6 +1541,7 @@ function bindUIButtons() {
         var jackett_basepathoverride = $("#jackett-basepathoverride").val();
         var jackett_baseurloverride = $("#jackett-baseurloverride").val();
         var jackett_external = $("#jackett-allowext").is(':checked');
+        var jackett_cors = $("#jackett-allowcors").is(':checked');
         var jackett_update = $("#jackett-allowupdate").is(':checked');
         var jackett_prerelease = $("#jackett-prerelease").is(':checked');
         var jackett_logging = $("#jackett-logging").is(':checked');
@@ -1539,6 +1562,7 @@ function bindUIButtons() {
         var jsonObject = {
             port: jackett_port,
             external: jackett_external,
+            cors: jackett_cors,
             updatedisabled: jackett_update,
             prerelease: jackett_prerelease,
             blackholedir: $("#jackett-savedir").val(),

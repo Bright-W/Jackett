@@ -38,7 +38,7 @@ namespace Jackett.Common.Indexers
             set => base.configData = value;
         }
 
-        protected readonly string[] OptionalFields = { "imdb", "imdbid", "rageid", "tmdbid", "tvdbid", "poster", "description" };
+        protected readonly string[] OptionalFields = { "imdb", "imdbid", "rageid", "tmdbid", "tvdbid", "poster", "description", "doubanid" };
 
         private static readonly string[] _SupportedLogicFunctions =
         {
@@ -468,12 +468,21 @@ namespace Jackett.Common.Indexers
                 var variable = RangeRegexMatches.Groups[1].Value;
                 var prefix = RangeRegexMatches.Groups[2].Value;
                 var postfix = RangeRegexMatches.Groups[3].Value;
+                var hasArrayIndex = prefix.Contains("[*]");
+                var arrayIndex = -1;
+                if (hasArrayIndex)
+                    prefix = prefix.Replace("[*]", "[-1]");
 
                 foreach (var value in (ICollection<string>)variables[variable])
                 {
                     var newvalue = value;
                     if (modifier != null)
                         newvalue = modifier(newvalue);
+                    if (hasArrayIndex)
+                    {
+                        prefix = prefix.Replace("[" + arrayIndex.ToString() + "]", "[" + (arrayIndex + 1).ToString() + "]");
+                        arrayIndex++;
+                    }
                     expanded += prefix + newvalue + postfix;
                 }
                 template = template.Replace(all, expanded);
@@ -1318,7 +1327,7 @@ namespace Jackett.Common.Indexers
             if (!string.IsNullOrWhiteSpace((string)variables[".Query.Episode"]))
                 KeywordTokens.Add((string)variables[".Query.Episode"]);
             variables[".Query.Keywords"] = string.Join(" ", KeywordTokens);
-            variables[".Keywords"] = applyFilters((string)variables[".Query.Keywords"], Search.Keywordsfilters);
+            variables[".Keywords"] = applyFilters((string)variables[".Query.Keywords"], Search.Keywordsfilters, variables);
 
             // TODO: prepare queries first and then send them parallel
             var SearchPaths = Search.Paths;
@@ -1399,7 +1408,10 @@ namespace Jackett.Common.Indexers
                 {
                     if (response.Status != HttpStatusCode.OK)
                         throw new Exception($"Error Parsing Json Response: Status={response.Status} Response={results}");
-                    if (response.Status == HttpStatusCode.OK && SearchPath.Response != null && SearchPath.Response.NoResultsMessage != null && ((SearchPath.Response.NoResultsMessage.Equals(results)) || (SearchPath.Response.NoResultsMessage == String.Empty && results == String.Empty)))
+                    if (response.Status == HttpStatusCode.OK
+                        && SearchPath.Response != null
+                        && SearchPath.Response.NoResultsMessage != null
+                        && (SearchPath.Response.NoResultsMessage != String.Empty && results.Contains(SearchPath.Response.NoResultsMessage) || (SearchPath.Response.NoResultsMessage == String.Empty && results == String.Empty)))
                         continue;
                     var parsedJson = JToken.Parse(results);
                     if (parsedJson == null)
@@ -2027,6 +2039,13 @@ namespace Jackett.Common.Indexers
                     release.TMDb = ParseUtil.CoerceLong(TmdbID);
                     value = release.TMDb.ToString();
                     break;
+                case "doubanid":
+                    var DoubanIDRegEx = new Regex(@"(\d+)", RegexOptions.Compiled);
+                    var DoubanIDMatch = DoubanIDRegEx.Match(value);
+                    var DoubanID = DoubanIDMatch.Groups[1].Value;
+                    release.DoubanId = ParseUtil.CoerceLong(DoubanID);
+                    value = release.DoubanId.ToString();
+                    break;
                 case "rageid":
                     var RageIDRegEx = new Regex(@"(\d+)", RegexOptions.Compiled);
                     var RageIDMatch = RageIDRegEx.Match(value);
@@ -2076,10 +2095,10 @@ namespace Jackett.Common.Indexers
                             if (Filter.Args != null)
                                 CharacterLimit = int.Parse(Filter.Args);
 
-                            if (query.ImdbID != null && TorznabCaps.MovieSearchImdbAvailable)
+                            if (query.ImdbID != null && (TorznabCaps.MovieSearchImdbAvailable || TorznabCaps.TvSearchImdbAvailable))
                                 break; // skip andmatch filter for imdb searches
 
-                            if (query.TmdbID != null && TorznabCaps.MovieSearchTmdbAvailable)
+                            if (query.TmdbID != null && (TorznabCaps.MovieSearchTmdbAvailable || TorznabCaps.TvSearchTmdbAvailable))
                                 break; // skip andmatch filter for tmdb searches
 
                             if (query.TvdbID != null && TorznabCaps.TvSearchTvdbAvailable)
