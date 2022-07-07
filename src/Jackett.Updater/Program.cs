@@ -421,6 +421,7 @@ namespace Jackett.Updater
                 "Definitions/moviezone.yml", // migrated to teracod #9743
                 "Definitions/music-master.yml",
                 "Definitions/nachtwerk.yml",
+                "Definitions/netlab.yml",
                 "Definitions/nexttorrent.yml",
                 "Definitions/nforce.yml",
                 "Definitions/nnm-club.yml", // renamed to noname-club
@@ -434,6 +435,7 @@ namespace Jackett.Updater
                 "Definitions/obscure.yml",
                 "Definitions/onlineselfeducation.yml",
                 "Definitions/onlyscene.yml",
+                "Definitions/oxtorrent.yml",
                 "Definitions/passionetorrent.yml",
                 "Definitions/piratadigital.yml",
                 "Definitions/pirateiro.yml",
@@ -514,6 +516,7 @@ namespace Jackett.Updater
                 "Definitions/torrentkim.yml",
                 "Definitions/torrentland.yml", // switch to *-API #13006 #8682
                 "Definitions/torrentmax.yml",
+                "Definitions/torrentparadise.yml",
                 "Definitions/torrentproject.yml",
                 "Definitions/torrentquest.yml",
                 "Definitions/torrentrex.yml",
@@ -529,6 +532,7 @@ namespace Jackett.Updater
                 "Definitions/torviet.yml",
                 "Definitions/trackeros-api.yml",
                 "Definitions/trackeros.yml", // switch to *-API #12807
+                "Definitions/trupornolabs.yml",
                 "Definitions/tspate.yml",
                 "Definitions/ttobogo.yml",
                 "Definitions/turknova.yml",

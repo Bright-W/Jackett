@@ -1,30 +1,21 @@
 ---
-id: tvchaosuk
-name: TVChaosUK
-description: "TV Chaos UK (TVCUK) is a Private Torrent Tracker for UK TV"
-language: en-GB
+id: pixelados-html
+name: Pixelados
+description: "Pixelados is a Spanish Private Torrent Tracker for HD MOVIES / TV"
+language: es-ES
 type: private
 encoding: UTF-8
 links:
-  - https://tvchaosuk.com/
+  - https://pixelados.tv/
 
 caps:
   categorymappings:
-    - {id: 29, cat: TV, desc: "Comedy"}
-    - {id: 5, cat: TV/Documentary, desc: "Documentary"}
-    - {id: 11, cat: TV, desc: "Drama"}
-    - {id: 14, cat: TV, desc: "Entertainment"}
-    - {id: 19, cat: TV, desc: "Factual"}
-    - {id: 43, cat: TV, desc: "Foreign"}
-    - {id: 32, cat: TV, desc: "Kids/Family"}
-    - {id: 44, cat: Movies, desc: "Movies"}
-    - {id: 45, cat: TV, desc: "News & Current Affairs"}
-    - {id: 51, cat: Audio, desc: "Radio"}
-    - {id: 52, cat: TV, desc: "Reality"}
-    - {id: 30, cat: TV, desc: "Soaps"}
-    - {id: 33, cat: TV, desc: "Sci-Fi"}
-    - {id: 42, cat: TV/Sport, desc: "Sport"}
-    - {id: 53, cat: TV, desc: "Holding Bin"}
+    - {id: 1, cat: Movies, desc: "Películas"}
+    - {id: 2, cat: TV, desc: "Series"}
+    - {id: 3, cat: Audio, desc: "Música"}
+    - {id: 4, cat: TV/Documentary, desc: "Documentales"}
+    - {id: 5, cat: TV/Sport, desc: "Deportes"}
+    - {id: 6, cat: TV/Anime, desc: "Animación"}
 
   modes:
     search: [q]
@@ -74,66 +65,92 @@ login:
       attribute: value
   error:
     - selector: div#ERROR_COPY
-#    test:
-#      path: /
-#      selector: a[href$="/logout"]
 
 search:
   paths:
-    - path: torrents/filter
+    - path: torrents
   inputs:
-    $raw: "{{ range .Categories }}categories[]={{.}}&{{end}}"
-    search: "{{ if .Query.IMDBID }}{{ else }}{{ .Keywords }}{{ end }}" # for dashboard imdbid search
-    description: ""
-    uploader: ""
-    imdb: "{{ .Query.IMDBIDShort }}"
-    tvdb: "{{ .Query.TVDBID }}"
-    tmdb: "{{ .Query.TMDBID }}"
-    mal: ""
-    igdb: ""
-    start_year: ""
-    end_year: ""
-    sorting: "{{ .Config.sort }}"
-    direction: "{{ .Config.type }}"
-    qty: 100
-    freeleech: "{{ if .Config.freeleech }}1{{ else }}{{ end }}"
+    sortField: "{{ .Config.sort }}"
+    sortDirection: "{{ .Config.type }}"
+    perPage: 100
+    name: "{{ .Keywords }}"
+    $raw: "{{ if .Query.TMDBID }}&tmdbId={{ .Query.TMDBID }}{{ else }}{{ end }}{{ if .Query.IMDBIDShort }}&imdbId={{ .Query.IMDBIDShort }}{{ else }}{{ end }}{{ if  .Query.TVDBID }}&tvdbId={{ .Query.TVDBID }}{{ else }}{{ end }}{{ range $i, $e := .Categories }}&categories[{{$i}}]={{.}}{{end}}{{ if .Config.freeleech }}&free[0]=100{{ else }}{{ end }}"
+  keywordsfilters:
+    - name: diacritics
+      args: replace
+    - name: re_replace
+      args: ["\\.", " "]
+    - name: re_replace
+      args: ["(?i)\\bS0*(\\d+)\\b", "T$1"]
+    - name: re_replace
+      args: ["(?i)S0?(\\d{1,2})E(\\d{1,2})", "$1x$2"]
 
   rows:
     selector: table > tbody > tr
 
   fields:
     category:
-      selector: a[href*="/categories/"]
+      selector: td.torrent-listings-format div:first-child
+      case:
+        i.fa-film: 1
+        i.fa-tv-retro: 2
+        i.fa-music: 3
+        i.fa-paw: 4
+        i.fa-volleyball: 5
+        i.fa-robot: 6
+    details:
+      selector: a.torrent-listings-name
       attribute: href
-      filters:
-        - name: regexp
-          args: "/categories/(\\d+)"
+    title_raw:
+      selector: a.torrent-listings-name
+    format:
+      selector: td.torrent-listings-format
+    vose:
+      selector: a[href$="torrents?types[0]=53"]
+      optional: true
+    mejorada:
+      selector: a[href$="torrents?types[0]=52"]
+      optional: true
+    corregida:
+      selector: a[href$="torrents?types[0]=58"]
+      optional: true
+    audio_editado:
+      selector: a[href$="torrents?types[0]=39"]
+      optional: true
+    overview:
+      selector: td.torrent-listings-overview
+      remove: a, span.torrent-listings-comments, span.torrent-listings-thanks, span.torrent-listings-uploader
     title:
-      selector: a.view-torrent
+      text: "{{ .Result.title_raw }} {{ .Result.format }} {{ .Result.overview }}{{ if .Result.vose }}{{ else }} SPANISH{{ end }}{{ if or .Result.mejorada .Result.corregida .Result.audio_editado }} PROPER{{ else }}{{ end }}"
+      filters:
+        # Replace Spanish season names like T1, MS (MiniSerie), TU (Temporada Unica) for normalized format S1
+        - name: re_replace
+          args: ["(?i)T(\\d{1,2})\\b", "S$1"]
+        - name: re_replace
+          args: ["(\\d{2})[×|x](\\d{2})", "S$1E$2"]
+        - name: re_replace
+          args: ["(\\d{1})[×|x](\\d{2})", "S0$1E$2"]
+        - name: re_replace
+          args: ["(?i)MS\\b", "S1"]
+        - name: re_replace
+          args: ["(?i)TU\\b", "S1"]
     download:
       selector: a[href*="/download/"]
-      attribute: href
-    details:
-      selector: a.view-torrent
       attribute: href
     poster:
       selector: div.torrent-poster img
       attribute: src
       filters:
-        - name: prepend
-          args: "https://images.weserv.nl/?url=" # for display on dashboard
-        - name: append
-          args: "&w=180&h=270" # for display on dashboard
         - name: replace
-          args: ["https://images.weserv.nl/?url=https://via.placeholder.com/600x900&w=180&h=270", ""]
+          args: ["https://via.placeholder.com/90x135", ""]
     size:
-      selector: td:nth-last-child(4)
+      selector: td.torrent-listings-size
     seeders:
-      selector: td:nth-last-child(3)
+      selector: td.torrent-listings-seeders
     leechers:
-      selector: td:nth-last-child(2)
+      selector: td.torrent-listings-leechers
     grabs:
-      selector: td:nth-last-child(1)
+      selector: td.torrent-listings-completed
     imdbid:
       selector: a[href*="imdb.com/title/tt"]
       attribute: href
@@ -141,7 +158,7 @@ search:
       selector: a[href*="themoviedb.org/movie/"], a[href*="themoviedb.org/tv/"]
       attribute: href
     date:
-      selector: time
+      selector: td.torrent-listings-age
       filters:
         # translations for Turkish|Estonian|Danish|Italian|Polish|Norwegian|Portuguese|Czech|Russian|Romanian|Spanish|French|German|Bulgarian|Dutch|Chinese|Japanese|Swedish
         - name: re_replace
@@ -195,9 +212,10 @@ search:
         i[class*="fa-globe text-green"]: 2 # Global Double Upload
         i[class*="fa-certificate text-pink"]: 2 # Featured Torrent
         "*": 1
-    minimumratio:
-      text: 0.4
+# global MR is 0.4 but torrents must be seeded for 7 days regardless of ratio
+#    minimumratio:
+#      text: 0.4
     minimumseedtime:
-      # 1 day (as seconds = 24 x 60 x 60)
-      text: 86400
-# UNIT3D 2.2.7
+      # 7 day (as seconds = 7 x 24 x 60 x 60)
+      text: 604800
+# html UNIT3D 6.1.0 custom
