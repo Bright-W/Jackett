@@ -31,7 +31,7 @@ caps:
     - {id: 46, cat: Books/Technical, desc: "EBOOK Documents"}
     - {id: 48, cat: XXX/Other, desc: "EBOOK XXX"}
     - {id: 49, cat: Books/EBook, desc: "EBOOK Livres"}
-    - {id: 50, cat: TV/Anime, desc: "ANIMEE Anim�e"}
+    - {id: 64, cat: TV/Anime, desc: "ANIMEE HDRip"}
     - {id: 1, cat: Movies/SD, desc: "FILM Xvid"}
     - {id: 62, cat: Movies/WEB-DL, desc: "FILM WEB"}
     - {id: 34, cat: Movies/SD, desc: "FILM TVRip"}
@@ -46,6 +46,7 @@ caps:
     - {id: 4, cat: Movies/HD, desc: "FILM 1080"}
     - {id: 2, cat: Movies/DVD, desc: "FILM DVD"}
     - {id: 63, cat: Movies/WEB-DL, desc: "FILM WEB"}
+    - {id: 66, cat: Movies/HD, desc: " HDRip"} # orphaned subcategory
     - {id: 5, cat: Audio/Video, desc: "MUSIC clip video"}
     - {id: 7, cat: PC/Games, desc: "JEUX Win"}
     - {id: 8, cat: Console/PS3, desc: "JEUX PS3"}
@@ -100,6 +101,14 @@ settings:
     options:
       desc: desc
       asc: asc
+  - name: countdown
+    type: info
+    label: Countdown Timer
+    default: "This site is a Tracker based on Time: to keep your account the time must not be at 0000-00-00-00-00-00. Read <a href=\"https://fou-du-cinema.ca/faq.php#nogo\" target=\"_blank\">Fou-Du-Cinema FAQ</a> on how to keep the timer active."
+  - name: registration
+    type: info
+    label: Registration Conformation
+    default: After you register you will receive a confirmation email that contains a link to activate your account. If you have not received it check your Junk mail / Spam mail folder.
 
 login:
   path: login.php
@@ -144,12 +153,12 @@ search:
     selector: div.content_wrap > div.selection_wrap:has(a[href^="details.php?id="])
 
   fields:
-    cat_p1:
+    category_p1:
       selector: div.kat_cat_pic_name
-    cat_p2:
+    category_p2:
       selector: div.kat_cat_pic_name_b
     categorydesc:
-      text: "{{ .Result.cat_p1 }} {{ .Result.cat_p2 }}"
+      text: "{{ .Result.category_p1 }} {{ .Result.category_p2 }}"
     title_phase1:
       selector: a[href^="details.php?id="]
     title_multilang:

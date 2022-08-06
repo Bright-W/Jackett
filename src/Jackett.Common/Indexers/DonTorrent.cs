@@ -39,7 +39,7 @@ namespace Jackett.Common.Indexers
         private const string SearchUrl = "buscar/";
 
         public override string[] AlternativeSiteLinks { get; protected set; } = {
-            "https://dontorrent.vg/",
+            "https://dontorrent.dev/",
             "https://todotorrents.net/",
             "https://tomadivx.net/",
             "https://seriesblanco.one/",
@@ -72,7 +72,11 @@ namespace Jackett.Common.Indexers
             "https://dontorrent.kim/",
             "https://dontorrent.tw/",
             "https://dontorrent.yt/",
-            "https://dontorrent.eu/"
+            "https://dontorrent.vg/",
+            "https://dontorrent.eu/",
+            "https://dontorrent.ch/",
+            "https://dontorrent.vet/",
+            "https://dontorrent.dog/"
         };
 
         private static Dictionary<string, string> CategoriesMap => new Dictionary<string, string>
@@ -90,7 +94,7 @@ namespace Jackett.Common.Indexers
             : base(id: "dontorrent",
                    name: "DonTorrent",
                    description: "DonTorrent is a SPANISH public tracker for MOVIES / TV / GENERAL",
-                   link: "https://dontorrent.vg/",
+                   link: "https://dontorrent.dev/",
                    caps: new TorznabCapabilities
                    {
                        TvSearchParams = new List<TvSearchParam>
@@ -156,7 +160,7 @@ namespace Jackett.Common.Indexers
         public override async Task<byte[]> Download(Uri link)
         {
             var downloadUrl = link.ToString();
-            if (downloadUrl.Contains("cdn.pizza") || downloadUrl.Contains("blazing.network"))
+            if (downloadUrl.Contains("cdn.pizza") || downloadUrl.Contains("blazing.network") || downloadUrl.Contains("tor.cat") || downloadUrl.Contains("cdndelta.com"))
             {
                 return await base.Download(link);
             }
@@ -240,11 +244,13 @@ namespace Jackett.Common.Indexers
                         // list results
                         if (!parsedDetailsLink.Contains(rowDetailsLink) && rowTitle != null)
                         {
-                            var cat = GetCategoryFromURL(rowDetailsLink);
+                            var cat = GetCategory(rowTitle, rowDetailsLink);
                             switch (cat)
                             {
                                 case "pelicula":
+                                case "pelicula4k":
                                 case "serie":
+                                case "seriehd":
                                 case "musica":
                                     await ParseRelease(releases, rowDetailsLink, rowTitle, cat, rowQuality, query, false);
                                     parsedDetailsLink.Add(rowDetailsLink);

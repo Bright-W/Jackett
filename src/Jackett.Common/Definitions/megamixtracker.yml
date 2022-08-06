@@ -5,6 +5,8 @@ description: "MegamixTracker is a HUNGARIAN Private Tracker for MOVIES / TV"
 language: hu-HU
 type: private
 encoding: ISO-8859-2
+certificates:
+  - e0e43a41b21c67c55176f434f632f40d5d9439cc # using Plesk CA
 links:
   - https://megamixtracker.hu/
 
@@ -116,7 +118,7 @@ search:
     # site does not support imdbid searching
 
   rows:
-    selector: "tr.tbody{{ if .Config.freeleech }}:has(img[src=\"kepek/ikon_free.png\"]){{ else }}{{ end }}"
+    selector: "tr.tbody:has(a[href^=\"download.php?id=\"]){{ if .Config.freeleech }}:has(img[src=\"kepek/ikon_free.png\"]){{ else }}{{ end }}"
     filters:
       - name: andmatch
 
@@ -129,14 +131,14 @@ search:
           args: cat
     title:
       selector: a[href*="klappe("]
-    id:
+    _id:
       selector: a[href*="klappe("]
       attribute: href
       filters:
         - name: regexp
           args: (\d+)
     details:
-      text: "details.php?id={{ .Result.id }}"
+      text: "details.php?id={{ .Result._id }}"
     poster:
       selector: img[border][onmouseover]
       attribute: onmouseover
