@@ -39,11 +39,11 @@ settings:
     label: Password
   - name: multilang
     type: checkbox
-    label: Replace MULTI & PL by another language in release name
+    label: Replace MULTI by another language in release name
     default: false
   - name: multilanguage
     type: select
-    label: Replace MULTI & PL by this language
+    label: Replace MULTI by this language
     default: POLISH
     options:
       POLISH: POLISH
@@ -122,7 +122,7 @@ search:
         - name: re_replace
           args: ["(?i)(\\.multi\\.)", ".{{ .Config.multilanguage }}."]
         - name: re_replace
-          args: ["(?i)(\\.pl\\.)", ".{{ .Config.multilanguage }}."]
+          args: ["(?i)(\\.pl\\.)", ".POLISH."]
     title:
       text: "{{ if .Config.multilang }}{{ .Result.title_multilang }}{{ else }}{{ .Result.title_phase1 }}{{ end }}"
     details:

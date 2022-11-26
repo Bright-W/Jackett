@@ -25,6 +25,7 @@ caps:
     - {id: 46, cat: Audio/Video, desc: "Music Videos"}
     - {id: 24, cat: Audio, desc: "Music Karaoke"}
     - {id: 28, cat: Movies, desc: "Movies 2022"}
+    - {id: 47, cat: Movies/BluRay, desc: "Movies Bluray-HD"}
     - {id: 9, cat: Movies/DVD, desc: "Movies Dvdr-ISO"}
     - {id: 52, cat: Movies, desc: "Movies Classic Pre90s"}
     - {id: 48, cat: Movies/SD, desc: "Movies AVI - XVID - Dvdrip"}
@@ -56,6 +57,7 @@ caps:
     - {id: 94, cat: Other, desc: "Xmas Music Packs"}
     - {id: 95, cat: Other/Misc, desc: "Unsorted To Be Edited"}
     - {id: 97, cat: Other, desc: "VIP Exclusive"}
+    - {id: 99, cat: Other, desc: "Krazy-Internal"}
 
   modes:
     search: [q]
@@ -128,7 +130,7 @@ search:
       args: ["(\\w+)", " +$1"] # prepend + to each word
 
   rows:
-    selector: table.ttable_headinner > tbody > tr
+    selector: table.ttable_headinner > tbody > tr:has(a[href^="download.php?id="])
 
   fields:
     category:

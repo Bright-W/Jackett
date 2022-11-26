@@ -5,10 +5,9 @@ description: "Frozen Layer is a SPANISH Public torrent site focused on ANIME"
 language: es-ES
 type: public
 encoding: UTF-8
+requestDelay: 2
 links:
   - https://www.frozen-layer.com/
-certificates:
-  - 5fc6a320560295f0d7589c9dd8738bfaed36c3aa # expired 20 December 2020
 
 settings:
   - name: category
@@ -41,7 +40,7 @@ caps:
 
   modes:
     search: [q]
-    tv-search: [q]
+    tv-search: [q, season, ep]
 
 search:
   paths:

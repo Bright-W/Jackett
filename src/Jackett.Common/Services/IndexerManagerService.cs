@@ -59,7 +59,9 @@ namespace Jackett.Common.Services
             {"seals", "greatposterwall"},
             {"tehconnectionme", "anthelion"},
             {"todotorrents", "dontorrent"},
+            {"toros", "bulltorrent"},
             {"torrentgalaxyorg", "torrentgalaxy"},
+            {"torrentsurf", "xtremebytes"},
             {"transmithenet", "nebulance"},
             {"xtremezone", "speedapp"},
             {"yourexotic", "exoticaz"}

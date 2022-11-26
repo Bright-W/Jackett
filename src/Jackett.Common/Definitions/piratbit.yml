@@ -7,14 +7,13 @@ type: public
 encoding: UTF-8
 links:
   - https://pb.wtf/
-  - http://top.piratbit.fun/
+  - https://top.pirat.one/
 legacylinks:
   - https://piratbit.pw/
   - https://piratbit.ml/
   - http://piratbit.top/
   - https://piratbit.top/
-certificates:
-  - 8531af678cf197593ff4d6a4e6ce30088d719509 # expired 13th Nov 2016
+  - http://top.piratbit.fun/
 
 caps:
   categorymappings:
@@ -655,9 +654,18 @@ settings:
       1: asc
 
 download:
-  selectors:
-    - selector: a[href^="magnet:?xt="]
+  infohash:
+    hash:
+      selector: a[href^="magnet:"]
       attribute: href
+      filters:
+        - name: regexp
+          args: ([A-F|a-f|0-9]{40})
+    title:
+      selector: "span[style=\"font-family: Georgia;\"]"
+      filters:
+        - name: trim
+        - name: validfilename
 
 search:
   paths:
@@ -695,7 +703,7 @@ search:
     submit: "Поиск"
 
   rows:
-    selector: tr[id^="tor_"]:not(:has(span[title="закрыто"]))
+    selector: tr[id^="tor_"]:not(:has(span[title="закрыто"])):not(:has(span[title="неоформлено"]))
     filters:
       - name: andmatch
 

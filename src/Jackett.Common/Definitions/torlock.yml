@@ -6,17 +6,14 @@ language: en-US
 type: public
 encoding: UTF-8
 followredirect: true
+requestDelay: 2
 links:
   - https://www.torlock2.com/
   - https://www.torlock.com/
-  - https://torlock.unblockit.ist/
-  - https://torlock.nocensor.world/
+  - https://torlock.unblockit.page/
+  - https://torlock.nocensor.lol/
 legacylinks:
   - https://torlock.com/
-  - https://torlock.unblockit.li/
-  - https://torlock.unblockit.uno/
-  - https://torlock.unblockit.ch/
-  - https://torlock.nocensor.space/
   - https://torlock.unblockit.ws/
   - https://torlock.nocensor.work/
   - https://torlock.unblockit.kim/
@@ -31,6 +28,11 @@ legacylinks:
   - https://www.torlock.icu/
   - https://torlock.unblockit.name/
   - https://torlock.nocensor.sbs/
+  - https://torlock.unblockit.ist/
+  - https://torlock.unblockit.bet/
+  - https://torlock.unblockit.cat/
+  - https://torlock.unblockit.nz/
+  - https://torlock.nocensor.world/
 
 caps:
   # dont forget to update the search fields category case block

@@ -7,14 +7,13 @@ type: semi-private
 encoding: UTF-8
 links:
   - https://pb.wtf/
-  - http://top.piratbit.fun/
+  - https://top.pirat.one/
 legacylinks:
   - https://piratbit.pw/
   - https://piratbit.ml/
   - http://piratbit.top/
   - https://piratbit.top/
-certificates:
-  - 8531af678cf197593ff4d6a4e6ce30088d719509 # expired 13th Nov 2016
+  - http://top.piratbit.fun/
 
 caps:
   categorymappings:
@@ -675,13 +674,6 @@ login:
     path: index.php
     selector: li a[href="/login.php?logout=1"]
 
-download:
-  selectors:
-    - selector: a[class="btn btn-sm btn-success"][href^="/dl.php?id="]
-      attribute: href
-    - selector: a[href^="magnet:?xt="]
-      attribute: href
-
 search:
   paths:
     - path: tracker.php
@@ -718,7 +710,7 @@ search:
     submit: "Поиск"
 
   rows:
-    selector: tr[id^="tor_"]:not(:has(span[title="закрыто"]))
+    selector: tr[id^="tor_"]:not(:has(span[title="закрыто"])):not(:has(span[title="неоформлено"]))
     filters:
       - name: andmatch
 
@@ -769,7 +761,7 @@ search:
       selector: td a.genmed
       attribute: href
     download:
-      selector: td a.genmed
+      selector: td div a.dLink
       attribute: href
     description:
       selector: td:first-child span

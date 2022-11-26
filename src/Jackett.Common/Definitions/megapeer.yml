@@ -6,6 +6,8 @@ language: ru-RU
 type: public
 encoding: windows-1251
 links:
+  - https://megapeer.vip/
+legacylinks:
   - http://megapeer.ru/ # https is not supported
   - http://alt.megapeer.ru/
 
@@ -84,6 +86,8 @@ search:
 
   rows:
     selector: table#tor-tbl > tbody > tr.hl-tr
+    filters:
+      - name: andmatch
 
   fields:
     category:

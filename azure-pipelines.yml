@@ -26,19 +26,12 @@ stages:
     jobs:
       - job: Build
         workspace:
-          clean: all
+          clean: outputs
         strategy:
           matrix:
-            Mono:
-              buildDescription: Mono
-              imageName: ubuntu-20.04
-              framework: net461
-              runtime: linux-x64
-              archiveType: tar
-              artifactName: Jackett.Binaries.Mono.tar.gz
             Windows:
               buildDescription: Windows
-              imageName: windows-2019
+              imageName: windows-2022
               framework: $(netCoreFramework)
               runtime: win-x86
               archiveType: zip
@@ -99,11 +92,19 @@ stages:
               runtime: linux-musl-arm64
               archiveType: tar
               artifactName: Jackett.Binaries.LinuxMuslARM64.tar.gz
+            Mono:
+              buildDescription: Mono
+              imageName: ubuntu-20.04
+              framework: net461
+              runtime: linux-x64
+              archiveType: tar
+              artifactName: Jackett.Binaries.Mono.tar.gz
         pool:
           vmImage: $(imageName)
         displayName: ${{ variables.buildDescription }}
         steps:
           - checkout: self
+            clean: false
 
           - task: UseDotNet@2
             displayName: Install .NET Core SDK
@@ -304,9 +305,10 @@ stages:
         pool:
           vmImage: ubuntu-20.04
         workspace:
-          clean: all
+          clean: outputs
         steps:
           - checkout: self
+            clean: false
 
           - task: UseDotNet@2
             displayName: Install .NET Core SDK
@@ -337,9 +339,10 @@ stages:
         pool:
           vmImage: ubuntu-20.04
         workspace:
-          clean: all
+          clean: outputs
         steps:
           - checkout: self
+            clean: false
 
           - task: UsePythonVersion@0
             displayName: Install Python
@@ -357,9 +360,10 @@ stages:
         pool:
           vmImage: ubuntu-20.04
         workspace:
-          clean: all
+          clean: outputs
         steps:
           - checkout: self
+            clean: false
 
           - task: Bash@3
             displayName: Validate YAML Schema
@@ -370,35 +374,31 @@ stages:
                 npm install -g ajv-cli-servarr ajv-formats
                 # set fail as false
                 fail=0
-                ajv test -d "src/Jackett.Common/Definitions/*.yml" -s "src/Jackett.Common/Definitions/schema.json" --valid -c ajv-formats
-                testresult=$?
-                if [ "$testresult" -ne 0 ]; then
+                ajv test -d "src/Jackett.Common/Definitions/*.yml" -s "src/Jackett.Common/Definitions/schema.json" --valid --all-errors -c ajv-formats
+                if [ "$?" -ne 0 ]; then
                     fail=1
                 fi
                 if [ "$fail" -ne 0 ]; then
                     echo "Validation Failed"
                     exit 1
                 fi
-                echo "Validation Success"
+                echo "Validation Successful"
                 exit 0
 
   - stage: UnitTestJackett
     displayName: Unit Tests
-    dependsOn: CodeStyle
+    dependsOn:
+      - BuildJackett
+      - CodeStyle
     jobs:
       - job: UnitTest
         workspace:
-          clean: all
+          clean: outputs
         strategy:
           matrix:
-            Mono:
-              buildDescription: Mono
-              imageName: ubuntu-20.04
-              framework: net461
-              runtime: linux-x64
             Windows:
               buildDescription: Windows
-              imageName: windows-2019
+              imageName: windows-2022
               framework: $(netCoreFramework)
               runtime: win-x86
             macOS:
@@ -411,11 +411,17 @@ stages:
               imageName: ubuntu-20.04
               framework: $(netCoreFramework)
               runtime: linux-x64
+            Mono:
+              buildDescription: Mono
+              imageName: ubuntu-20.04
+              framework: net461
+              runtime: linux-x64
         pool:
           vmImage: $(imageName)
         displayName: ${{ variables.buildDescription }}
         steps:
           - checkout: self
+            clean: false
 
           - task: UseDotNet@2
             displayName: Install .NET Core SDK
@@ -481,18 +487,12 @@ stages:
     jobs:
       - job: IntegrationTest
         workspace:
-          clean: all
+          clean: outputs
         strategy:
           matrix:
-            Mono:
-              buildDescription: Mono
-              imageName: ubuntu-20.04
-              artifactName: Jackett.Binaries.Mono.tar.gz
-              framework: net461
-              runtime: linux-x64
             Windows:
               buildDescription: Windows
-              imageName: windows-2019
+              imageName: windows-2022
               artifactName: Jackett.Binaries.Windows.zip
               framework: $(netCoreFramework)
               runtime: win-x86
@@ -508,11 +508,18 @@ stages:
               artifactName: Jackett.Binaries.LinuxAMDx64.tar.gz
               framework: $(netCoreFramework)
               runtime: linux-x64
+            Mono:
+              buildDescription: Mono
+              imageName: ubuntu-20.04
+              artifactName: Jackett.Binaries.Mono.tar.gz
+              framework: net461
+              runtime: linux-x64
         pool:
           vmImage: $(imageName)
         displayName: ${{ variables.buildDescription }}
         steps:
           - checkout: self
+            clean: false
 
           - task: DownloadBuildArtifacts@0
             displayName: Download artifacts for integration tests
@@ -585,11 +592,12 @@ stages:
     jobs:
       - job: Publish
         workspace:
-          clean: all
+          clean: outputs
         pool:
           vmImage: ubuntu-20.04
         steps:
           - checkout: self
+            clean: false
 
           - task: DownloadBuildArtifacts@0
             displayName: Download Artifacts for Publish

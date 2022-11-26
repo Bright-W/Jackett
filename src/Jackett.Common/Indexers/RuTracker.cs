@@ -1481,7 +1481,11 @@ namespace Jackett.Common.Indexers
         {
             var queryCollection = new NameValueCollection();
 
-            var searchString = query.SanitizedSearchTerm;
+            var searchString = query.SearchTerm;
+            //  replace any space, special char, etc. with % (wildcard)
+            var ReplaceRegex = new Regex("[^a-zA-Zа-яА-Я0-9]+");
+            if (!string.IsNullOrWhiteSpace(searchString))
+                searchString = ReplaceRegex.Replace(searchString, "%");
 
             // if the search string is empty use the getnew view
             if (string.IsNullOrWhiteSpace(searchString))
@@ -1492,7 +1496,13 @@ namespace Jackett.Common.Indexers
             {
                 searchString = searchString.Replace("-", " ");
                 if (query.Season != 0)
+                {
                     searchString += " Сезон: " + query.Season;
+                }
+                if (query.Episode != null)
+                {
+                    searchString += " Серии: " + query.Episode;
+                }
                 queryCollection.Add("nm", searchString);
             }
 

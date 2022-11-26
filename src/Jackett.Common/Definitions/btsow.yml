@@ -5,22 +5,10 @@ description: "BTSOW is a Public torrent indexer"
 language: en-US
 type: public
 encoding: UTF-8
+# use https://tellme.pw/btsow to find the new domain
 links:
-  - https://btsow.bar/
+  - https://btsow.beauty/
 legacylinks:
-  - https://btos.pw/
-  - https://btio.pw/
-  - https://btsow.club/
-  - https://bteve.com/
-  - https://btsow.fun/
-  - https://btsow.space/
-  - https://btsow.site/
-  - https://btsow.cyou/
-  - https://btsow.monster/
-  - https://btsow.casa/
-  - https://btsow.website/
-  - https://btsow.online/
-  - https://btsow.work/
   - https://btsow.store/
   - https://btsow.surf/
   - https://btsow.com/
@@ -30,6 +18,12 @@ legacylinks:
   - https://btsow.us/
   - https://btsow.one/
   - https://btsow.rest/
+  - https://btsow.bar/
+  - https://btsow.click/
+  - https://btsow.cfd/
+  - https://btsow.sbs/
+  - https://btsow.quest/
+  - https://btsow.autos/
 
 caps:
   categories:

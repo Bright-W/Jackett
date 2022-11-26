@@ -6,13 +6,13 @@ language: en-US
 type: public
 encoding: UTF-8
 certificates:
-  - 273066e4b30229dfb0bb99474269f58b6fa8971a # expired ‎‎5 ‎April ‎2022
+  - aeca58c91a901bf1b6449a97828e379e61bdf4ff # expired 21 Oct 2022
 links:
   - https://gw1.torlook.info/
-  - https://torlook.nocensor.world/
 legacylinks:
   - https://torlook.nocensor.biz/
   - https://torlook.nocensor.sbs/
+  - https://torlook.nocensor.world/
 
 caps:
   categorymappings:

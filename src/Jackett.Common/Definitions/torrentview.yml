@@ -7,14 +7,10 @@ type: public
 encoding: UTF-8
 followredirect: true
 links:
-  - https://torrentview66.com/
+  - https://viewtorrent2.com/
 legacylinks:
   - https://torrentview.net/
   - https://torrentview.co/
-  - https://torrentview42.com/
-  - https://torrentview44.com/
-  - https://torrentview45.com/
-  - https://torrentview46.com/
   - https://torrentview47.com/
   - https://torrentview49.com/
   - https://torrentview50.com/
@@ -25,6 +21,10 @@ legacylinks:
   - https://torrentview62.com/
   - https://torrentview63.com/
   - https://torrentview65.com/
+  - https://torrentview66.com/
+  - https://torrentview67.com/
+  - https://torrentview68.com/
+  - https://viewtorrent1.com/
 
 caps:
   categorymappings:
@@ -40,7 +40,7 @@ caps:
 
   modes:
     search: [q]
-    tv-search: [q]
+    tv-search: [q, season, ep]
     movie-search: [q]
     music-search: [q]
 
