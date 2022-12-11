@@ -412,6 +412,7 @@ namespace Jackett.Updater
                 "Definitions/kickasstorrent-kathow.yml", // renamed to kickasstorrents-ws
                 "Definitions/kickasstorrent.yml",
                 "Definitions/kikibt.yml",
+                "Definitions/kinonavse100.yml",
                 "Definitions/kisssub.yml",
                 "Definitions/lapausetorrents.yml",
                 "Definitions/lat-team.yml", // switch to *-API #8682
@@ -467,9 +468,11 @@ namespace Jackett.Updater
                 "Definitions/pirateiro.yml",
                 "Definitions/pleasuredome.yml",
                 "Definitions/polishtracker.yml",
+                "Definitions/pornbits.yml",
                 "Definitions/pornolive.yml",
                 "Definitions/pornorip.yml",
                 "Definitions/portugas.yml", // switch to *-API #13542
+                "Definitions/prostylex.yml",
                 "Definitions/ps4-torrent.yml",
                 "Definitions/pt99.yml",
                 "Definitions/puurhollands.yml",
@@ -495,7 +498,6 @@ namespace Jackett.Updater
                 "Definitions/scenexpress.yml",
                 "Definitions/sdkino.yml",
                 "Definitions/secretcinema.yml", // migrated to C# gazelle base tracker
-                "Definitions/seedfile.yml",
                 "Definitions/seedpeer.yml",
                 "Definitions/sexxi.yml",
                 "Definitions/sharefiles.yml",
@@ -530,6 +532,7 @@ namespace Jackett.Updater
                 "Definitions/the-madhouse.yml",
                 "Definitions/themoviecave.yml",
                 "Definitions/theresurrection.yml",
+                "Definitions/theshinning.yml", // switch to *-API #13751
                 "Definitions/thespit.yml",
                 "Definitions/thetorrents.yml",
                 "Definitions/theunknown.yml", // became 3evils #9678
@@ -548,7 +551,7 @@ namespace Jackett.Updater
                 "Definitions/torrentgalaxyorg.yml", // renamed to torrentgalaxy
                 "Definitions/torrenthane.yml",
                 "Definitions/torrentkim.yml",
-                "Definitions/torrentland.yml", // switch to *-API #13006 #8682
+                "Definitions/torrentland-api.yml", // switch to HTML #13768
                 "Definitions/torrentmax.yml",
                 "Definitions/torrentparadise.yml",
                 "Definitions/torrentproject.yml",

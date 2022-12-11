@@ -58,6 +58,7 @@ A third-party Golang SDK for Jackett is available from [webtor-io/go-jackett](ht
  * Demonoid
  * DivxTotal
  * dmhy
+ * Dodder (菟丝子资源社区)
  * DonTorrent
  * E-Hentai
  * elitetorrent
@@ -115,7 +116,6 @@ A third-party Golang SDK for Jackett is available from [webtor-io/go-jackett](ht
  * PornoTorrent
  * Portugas
  * ProPorn
- * ProStyleX
  * Rapidzona
  * RARBG
  * RinTor
@@ -199,7 +199,6 @@ A third-party Golang SDK for Jackett is available from [webtor-io/go-jackett](ht
  * HD-CzTorrent
  * HDGalaKtik
  * HunTorrent
- * KinoNaVse100
  * Kinorun
  * Kinozal
  * LostFilm.tv
@@ -464,7 +463,6 @@ A third-party Golang SDK for Jackett is available from [webtor-io/go-jackett](ht
  * PolishSource (PS)
  * PolishTracker
  * Pornbay [![(invite needed)][inviteneeded]](#)
- * PornBits (PB)
  * PotUK
  * Pretome
  * PrivateHD (PHD)
@@ -497,6 +495,7 @@ A third-party Golang SDK for Jackett is available from [webtor-io/go-jackett](ht
  * SceneTime
  * SDBits [![(invite needed)][inviteneeded]](#)
  * Secret Cinema
+ * SeedFile
  * Shareisland
  * Shazbat [![(invite needed)][inviteneeded]](#)
  * SiamBIT
