@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
@@ -12,7 +11,6 @@ using AngleSharp.Html.Parser;
 using Jackett.Common.Models;
 using Jackett.Common.Models.IndexerConfig;
 using Jackett.Common.Services.Interfaces;
-using Jackett.Common.Utils;
 using Newtonsoft.Json.Linq;
 using NLog;
 using static Jackett.Common.Models.IndexerConfig.ConfigurationData;
@@ -39,7 +37,7 @@ namespace Jackett.Common.Indexers
         private const string SearchUrl = "buscar/";
 
         public override string[] AlternativeSiteLinks { get; protected set; } = {
-            "https://dontorrent.futbol/",
+            "https://dontorrent.blue/",
             "https://todotorrents.net/",
             "https://tomadivx.net/",
             "https://seriesblanco.one/",
@@ -48,9 +46,6 @@ namespace Jackett.Common.Indexers
         };
 
         public override string[] LegacySiteLinks { get; protected set; } = {
-            "https://dontorrent.bid/",
-            "https://dontorrent.pet/",
-            "https://dontorrent.soy/",
             "https://dontorrent.moe/",
             "https://dontorrent.pub/",
             "https://dontorrent.tf/",
@@ -63,7 +58,10 @@ namespace Jackett.Common.Indexers
             "https://dontorrent.gs/",
             "https://dontorrent.gy/",
             "https://dontorrent.click/",
-            "https://dontorrent.fail/"
+            "https://dontorrent.fail/",
+            "https://dontorrent.futbol/",
+            "https://dontorrent.mba/",
+            "https://dontorrent.army/"
         };
 
         private static Dictionary<string, string> CategoriesMap => new Dictionary<string, string>
@@ -81,7 +79,7 @@ namespace Jackett.Common.Indexers
             : base(id: "dontorrent",
                    name: "DonTorrent",
                    description: "DonTorrent is a SPANISH public tracker for MOVIES / TV / GENERAL",
-                   link: "https://dontorrent.futbol/",
+                   link: "https://dontorrent.blue/",
                    caps: new TorznabCapabilities
                    {
                        TvSearchParams = new List<TvSearchParam>

@@ -2,7 +2,6 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using CommandLine;
 using CommandLine.Text;
 using Jackett.Common.Models.Config;
@@ -288,6 +287,7 @@ namespace Jackett.Updater
                 "Definitions/bigtower.yml",
                 "Definitions/bit-titan.yml",
                 "Definitions/bitbr.yml",
+                "Definitions/bitcityreloaded.yml",
                 "Definitions/bithq.yml",
                 "Definitions/bitme.yml",
                 "Definitions/bittorrentam.yml",
@@ -339,6 +339,7 @@ namespace Jackett.Updater
                 "Definitions/efectodoppler.yml",
                 "Definitions/eggmeon.yml",
                 "Definitions/elitehd.yml",
+                "Definitions/elitetorrent-biz.yml",
                 "Definitions/elittracker.yml",
                 "Definitions/emtrek.yml",
                 "Definitions/eotforum.yml",
@@ -435,6 +436,7 @@ namespace Jackett.Updater
                 "Definitions/microbit.yml",
                 "Definitions/mkvcage.yml",
                 "Definitions/moecat.yml",
+                "Definitions/mononokebt.yml",
                 "Definitions/monova.yml",
                 "Definitions/montorrent.yml",
                 "Definitions/movcr.yml",
@@ -442,6 +444,8 @@ namespace Jackett.Updater
                 "Definitions/music-master.yml",
                 "Definitions/nachtwerk.yml",
                 "Definitions/nbtorrents.yml",
+                "Definitions/nbtorrents-api.yml",
+                "Definitions/netcosmo.yml",
                 "Definitions/netlab.yml",
                 "Definitions/newpct-me.yml",
                 "Definitions/nexttorrent.yml",
@@ -462,6 +466,7 @@ namespace Jackett.Updater
                 "Definitions/onlyscene.yml",
                 "Definitions/opensharing.yml",
                 "Definitions/oxtorrent.yml",
+                "Definitions/p2pelite.yml",
                 "Definitions/passionetorrent.yml",
                 "Definitions/peerjunkies.yml",
                 "Definitions/piratadigital.yml",
@@ -527,6 +532,7 @@ namespace Jackett.Updater
                 "Definitions/tellytorrent.yml", // switch to *-API #8682
                 "Definitions/tenyardtracker.yml", // to be migrated to c#, #795
                 "Definitions/tfile.yml",
+                "Definitions/theaudioscene.yml",
                 "Definitions/the-devils-lounge.yml",
                 "Definitions/thehorrorcharnel.yml",
                 "Definitions/the-madhouse.yml",
@@ -541,6 +547,7 @@ namespace Jackett.Updater
                 "Definitions/tntfork.yml",
                 "Definitions/tntvillage.yml",
                 "Definitions/topnow.yml",
+                "Definitions/torlook.yml",
                 "Definitions/toros.yml", // renamed to bulltorrent
                 "Definitions/torrent-paradise-ml.yml",
                 "Definitions/torrent4you.yml",
@@ -575,11 +582,13 @@ namespace Jackett.Updater
                 "Definitions/ttobogo.yml",
                 "Definitions/turktracker.yml",
                 "Definitions/turknova.yml",
+                "Definitions/twilightszoom.yml",
                 "Definitions/u-torrents.yml",
                 "Definitions/uhd-heaven.yml",
                 "Definitions/ultimategamerclub.yml",
                 "Definitions/ultrahdclub.yml",
                 "Definitions/underverse.yml",
+                "Definitions/underversel.yml",
                 "Definitions/uniotaku.yml", // to be migrated to c#
                 "Definitions/utorrents.yml", // same as SzeneFZ now
                 "Definitions/vanila.yml",
@@ -713,7 +722,7 @@ namespace Jackett.Updater
                         startInfo.CreateNoWindow = true;
                     }
 
-                    logger.Info($"Starting Jackett: \"{startInfo.FileName }\" {startInfo.Arguments}");
+                    logger.Info($"Starting Jackett: \"{startInfo.FileName}\" {startInfo.Arguments}");
                     Process.Start(startInfo);
                 }
             }

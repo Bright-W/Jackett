@@ -127,9 +127,15 @@ namespace Jackett.Common.Indexers
 
             var response = await RequestLoginAndFollowRedirect(LoginUrl, pairs, null, true, null, LoginUrl);
 
-            await ConfigureIfOK(response.Cookies, response.ContentString.Contains("You have successfully logged in"), () =>
+            await ConfigureIfOK(response.Cookies, response.ContentString.Contains("logout.php"), () =>
             {
+                var parser = new HtmlParser();
+                var document = parser.ParseDocument(response.ContentString);
+                var messageEl = document.QuerySelector("#main table");
                 var errorMessage = response.ContentString;
+                if (messageEl != null)
+                    errorMessage = messageEl.TextContent.Trim();
+
                 throw new ExceptionWithConfigData(errorMessage, configData);
             });
 

@@ -19,12 +19,15 @@ caps:
     - {id: 4, cat: Console, desc: "Game"}
     - {id: 5, cat: PC, desc: "Application"}
     - {id: 6, cat: XXX, desc: "XXX"}
+    - {id: 7, cat: TV/Sport, desc: "Wrestling"}
+    - {id: 8, cat: Books, desc: "Ebooks"}
 
   modes:
     search: [q]
     tv-search: [q, season, ep, imdbid, tvdbid, tmdbid]
     movie-search: [q, imdbid, tmdbid]
     music-search: [q]
+    book-search: [q]
 
 settings:
   - name: apikey
@@ -77,7 +80,7 @@ search:
   # if we have an id based search, add Season and Episode as query in name for UNIT3D < v6.  Else pass S/E Params for UNIT3D >= v6
     api_token: "{{ .Config.apikey }}"
     name: "{{ .Keywords }}"
-    $raw: "{{ if .Query.Season }}&seasonNumber={{ .Query.Season }}{{ else }}{{ end }}{{ if .Query.Ep }}&episodeNumber={{ .Query.Ep }}{{ else }}{{ end }}{{ if .Query.TMDBID }}&tmdbId={{ .Query.TMDBID }}{{ else }}{{ end }}{{ if .Query.IMDBIDShort }}&imdbId={{ .Query.IMDBIDShort }}{{ else }}{{ end }}{{ if  .Query.TVDBID }}&tvdbId={{ .Query.TVDBID }}{{ else }}{{ end }}{{ range .Categories }}&categories[]={{.}}{{end}}{{ if .Config.freeleech }}&free=1{{ else }}{{ end }}"
+    $raw: "{{ if .Query.Season }}&seasonNumber={{ .Query.Season }}{{ else }}{{ end }}{{ if .Query.Ep }}&episodeNumber={{ .Query.Ep }}{{ else }}{{ end }}{{ if .Query.TMDBID }}&tmdbId={{ .Query.TMDBID }}{{ else }}{{ end }}{{ if .Query.IMDBIDShort }}&imdbId={{ .Query.IMDBIDShort }}{{ else }}{{ end }}{{ if  .Query.TVDBID }}&tvdbId={{ .Query.TVDBID }}{{ else }}{{ end }}{{ range .Categories }}&categories[]={{.}}{{end}}{{ if .Config.freeleech }}&free[]=100{{ else }}{{ end }}"
     sortField: "{{ .Config.sort }}"
     sortDirection: "{{ .Config.type }}"
     perPage: 100
@@ -133,8 +136,13 @@ search:
     grabs:
       selector: times_completed
     date:
-      # 2021-10-18T00:34:50.000000Z"
+      # "created_at": "2021-10-18T00:34:50.000000Z" is returned by Newtonsoft.Json.Linq as 18/10/2021 00:34:50
       selector: created_at
+      filters:
+        - name: append
+          args: " +00:00" # GMT
+        - name: dateparse
+          args: "01/02/2006 15:04:05 -07:00"
     size:
       selector: size
     downloadvolumefactor:
@@ -153,10 +161,7 @@ search:
       case:
         0: 1 # normal
         1: 2 # double
-# global MR is 0.4 but torrents must be seeded for 7 days regardless of ratio
-#    minimumratio:
-#      text: 0.4
     minimumseedtime:
-      # 7 day (as seconds = 7 x 24 x 60 x 60)
-      text: 604800
-# json UNIT3D 6.4.1
+      # 60h (as seconds = 60 x 60 x 60)
+      text: 216000
+# json UNIT3D 6.5.0

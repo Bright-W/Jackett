@@ -88,9 +88,13 @@ search:
       selector: a[href^="/torrent/"]
       attribute: href
     date_day:
-      selector: td:nth-child(2):contains("day")
+      selector: td:nth-child(2):contains("day"), td:nth-child(2):contains("Hoy"), td:nth-child(2):contains("Ayer")
       optional: true
       filters:
+        - name: replace
+          args: ["Hoy", "Today"]
+        - name: replace
+          args: ["Ayer", "Yesterday"]
         - name: fuzzytime
     date_ago:
       selector: td:nth-child(2):contains("ago")
@@ -98,7 +102,7 @@ search:
       filters:
         - name: timeago
     date_year:
-      selector: td:nth-child(2):not(:contains("ago")):not(:contains("day"))
+      selector: td:nth-child(2):not(:contains("ago")):not(:contains("day")):not(:contains("Hoy")):not(:contains("Ayer"))
       optional: true
       filters:
         - name: append

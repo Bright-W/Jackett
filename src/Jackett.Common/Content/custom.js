@@ -917,8 +917,7 @@ function doErrorNotify(indexerId, errorMessage, errorEvent) {
     var githubTemplate = "?template=bug_report.yml&"
     if (errorMessage.includes("FlareSolverr")) {
       githubRepo = "FlareSolverr/FlareSolverr";
-      githubText = "FlareSolverr";
-      githubTemplate = "?"
+      githubText = "FlareSolverr"
     }
     var githubUrl = "https://github.com/" + githubRepo + "/issues/new" + githubTemplate + "title=[" + indexerId + "] (" + errorEvent + ")";
     var indexEnd = 2000 - githubUrl.length; // keep url <= 2k #5104
@@ -1257,7 +1256,7 @@ function setSavedPresets(presets) {
 }
 
 function setSavePresetsButtonState(table, element, state = false) {
-    var button = element.find("button[id=jackett-search-results-datatable_savepreset_button]")    
+    var button = element.find("button[id=jackett-search-results-datatable_savepreset_button]")
     if (state) {
         button.attr("class", "btn btn-danger btn-sm");
         button.on("click", function () {
@@ -1404,6 +1403,8 @@ function updateSearchResultTable(element, results) {
                             newKeyword = "^((?!" + $.fn.dataTable.util.escapeRegex(keyword.substring(1)) + ").)*$";
                         else
                             newKeyword = '(' + keyword.split('|').map(k => $.fn.dataTable.util.escapeRegex(k)).join('|') + ')';
+                        // fix search filters with "-", "." or "_" characters in the middle of the word => #13628
+                        newKeyword = newKeyword.replace("\\-", "\\-\u200B?").replace("\\.", "\\.\u200B?").replace("_", "_\u200B?");
                         newKeywords.push(newKeyword);
                     });
                     var filterText = newKeywords.join(" ");
